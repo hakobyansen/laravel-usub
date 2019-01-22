@@ -3,7 +3,7 @@
 namespace Usub\Core;
 
 use Illuminate\Support\ServiceProvider;
-use RB\Commands\ClearUsubTokens;
+use Usub\Commands\ClearUsubTokens;
 
 class UsubServiceProvider extends ServiceProvider
 {
