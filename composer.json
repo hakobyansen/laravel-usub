@@ -1,0 +1,33 @@
+{
+    "name": "codebot/laravel-usub",
+    "description": "Laravel package for authenticated user substitution.",
+    "authors": [
+        {
+            "name": "Sen",
+            "email": "sen.hakobyan@gmail.com"
+        }
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^7.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.3",
+        "orchestra/testbench": "~3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Usub\\": "src/"
+        },
+        "psr-0": {
+            "Usub\\": "src/"
+        }
+    },
+    "extra" : {
+        "laravel": {
+            "providers": [
+                "Usub\\Core\\UsubServiceProvider"
+            ]
+        }
+    }
+}
