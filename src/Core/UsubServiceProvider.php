@@ -19,6 +19,9 @@ class UsubServiceProvider extends ServiceProvider
         $this->commands([
             ClearUsubTokens::class
         ]);
+
+        // Load routes
+        $this->loadRoutesFrom(__DIR__.'/../routes.php');
     }
 
     public function register()
