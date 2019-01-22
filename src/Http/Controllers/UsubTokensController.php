@@ -21,6 +21,10 @@ class UsubTokensController extends Controller
         $this->usubService = new UsubService(
             new UsubTokenRepository( new UsubToken() )
         );
+
+        $this->middleware('auth');
+
+        $this->middleware('usub_sign_out')->only( 'signOut' );
     }
 
     /**
