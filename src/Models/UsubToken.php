@@ -13,6 +13,8 @@ class UsubToken extends Model
         'user2',
         'token',
         'redirect_to',
-        'expires_at'
+        'expires_at',
+        'created_at',
+        'updated_at'
     ];
 }
