@@ -3,7 +3,6 @@
 namespace Usub\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Config;
 use Usub\Core\UsubService;
 use Usub\Core\UsubTokenRepository;
 use Usub\Models\UsubToken;
