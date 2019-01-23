@@ -43,7 +43,7 @@ class UsubService
         $dateTime = new \DateTime();
         $dateTime->modify( '+30 minutes' );
 
-        $tokenExpirationDate = $dateTime->modify( 'Y-m-d H:i:s' );
+        $tokenExpirationDate = $dateTime->format( 'Y-m-d H:i:s' );
 
         $token = $this->generateToken();
 
