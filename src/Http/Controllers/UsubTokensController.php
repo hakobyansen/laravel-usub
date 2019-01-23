@@ -36,6 +36,7 @@ class UsubTokensController extends BaseController
 
     /**
      * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Exception
      */
     public function signIn( Request $request )
@@ -43,11 +44,14 @@ class UsubTokensController extends BaseController
         $user1 = Auth::id();
         $user2 = $request->get('user2');
 
-        $redirectTo = $request->get('redirect_to') ?? Config::get( 'usub.redirect_to' );
+        $redirectToOnSignIn  = $request->get('redirect_to_on_sign_in') ?? Config::get( 'usub.redirect_to' );
+        $redirectToOnSignOut = $request->get('redirect_to_on_sign_out') ?? Config::get( 'usub.redirect_to' );
 
-        $this->usubService->storeToken( $user1, $user2, $redirectTo );
+        $this->usubService->storeToken( $user1, $user2, $redirectToOnSignOut );
 
         Auth::loginUsingId( $user2 );
+
+        return redirect( $redirectToOnSignIn );
     }
 
     /**
