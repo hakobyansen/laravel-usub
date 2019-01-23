@@ -4,6 +4,7 @@ namespace Usub\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Cookie;
 use Usub\Core\UsubService;
 use Usub\Core\UsubTokenRepository;
@@ -36,12 +37,9 @@ class UsubTokensController extends Controller
         $user1 = Auth::id();
         $user2 = $request->get('user2');
 
-        $usubToken = $this->usubService->storeToken( $user1, $user2 );
+        $redirectTo = $request->get('redirect_to') ?? Config::get( 'usub.redirect_to' );
 
-        if( is_null( $usubToken ) )
-        {
-            abort( 500 );
-        }
+        $this->usubService->storeToken( $user1, $user2, $redirectTo );
 
         Auth::loginUsingId( $user2 );
     }

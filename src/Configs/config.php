@@ -5,5 +5,8 @@ return [
     'expiration' => 120,
 
     // Token length
-    'length' => 100
+    'length' => 100,
+
+    //
+    'redirect_to' => '/'
 ];

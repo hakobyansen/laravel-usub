@@ -30,12 +30,13 @@ class UsubService
     }
 
     /**
-     * @param $user1
-     * @param $user2
+     * @param int $user1
+     * @param int $user2
+     * @param string $redirectTo
      * @return UsubToken
      * @throws \Exception
      */
-    public function storeToken( $user1, $user2 ): UsubToken
+    public function storeToken( int $user1, int $user2, string $redirectTo ): UsubToken
     {
         $tokenExpirationMinutes = Config::get( 'usub.expiration' );
 
@@ -46,22 +47,13 @@ class UsubService
 
         $token = $this->generateToken();
 
-        try
-        {
-            $usubToken = $this->tokenRepo->save([
-                'token'       => $token,
-                'user1'       => $user1,
-                'user2'       => $user2,
-                'redirect_to' => Config::get( 'usub.redirect_to' ),
-                'expires_at'  => $tokenExpirationDate
-            ]);
-        }
-        catch ( \Exception $exception )
-        {
-            $errorMessage = "Couldn't save usub token in db. {$exception->getMessage()}. " . __METHOD__;
-
-            Log::error( $errorMessage );
-        }
+        $usubToken = $this->tokenRepo->save([
+            'token'       => $token,
+            'user1'       => $user1,
+            'user2'       => $user2,
+            'redirect_to' => $redirectTo,
+            'expires_at'  => $tokenExpirationDate
+        ]);
 
         Cookie::queue( Cookie::make( 'usub_token', $token,  $tokenExpirationMinutes ) );
 
