@@ -14,5 +14,5 @@ interface IUsubTokenRepository
 
     public function getAll(): array;
 
-    public function deleteExpiredTokens(): int;
+    public function deleteExpiredTokens( string $expirationDate ): int;
 }

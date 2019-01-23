@@ -53,15 +53,13 @@ class UsubTokenRepository implements IUsubTokenRepository
     }
 
     /**
+     * @param string $expirationDate
      * @return int
      */
-    public function deleteExpiredTokens(): int
+    public function deleteExpiredTokens( string $expirationDate ): int
     {
-        // TODO: Implement deleteExpiredTokens() method.
-    }
-
-    public function delete( int $tokenId ): int
-    {
-        // TODO: Implement delete() method.
+        return $this->model
+            ->where('expires_at', '<',  $expirationDate)
+            ->delete();
     }
 }
