@@ -27,23 +27,21 @@ class UsubTokenRepository implements IUsubTokenRepository
     }
 
     /**
-     * @param int $tokenId
-     * @return UsubToken
-     */
-    public function getById( int $tokenId ): UsubToken
-    {
-        // TODO: Implement getById() method.
-    }
-
-    /**
      * @param string $token
-     * @return UsubToken
+     * @param string $expirationDate
+     * @return UsubToken|null
      */
-    public function getByToken( string $token ): UsubToken
+    public function getByToken( string $token, string $expirationDate ): ?UsubToken
     {
-        return $this->model
-            ->where('token', $token)
-            ->first();
+        $query = $this->model
+            ->where('token', $token);
+
+        if( !is_null( $expirationDate ) )
+        {
+            $query = $query->whereDate('expires_at', '<', $expirationDate );
+        }
+
+        return $query->first();
     }
 
     /**

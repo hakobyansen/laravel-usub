@@ -10,9 +10,7 @@ interface IUsubTokenRepository
 
     public function delete( int $tokenId ): int;
 
-    public function getById( int $tokenId ): UsubToken;
-
-    public function getByToken( string $Token ): UsubToken;
+    public function getByToken( string $Token, string $expirationDateDate ): ?UsubToken;
 
     public function getAll(): array;
 

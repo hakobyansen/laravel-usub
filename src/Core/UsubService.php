@@ -38,13 +38,6 @@ class UsubService
      */
     public function storeToken( int $user1, int $user2, string $redirectTo ): UsubToken
     {
-        $tokenExpirationMinutes = Config::get( 'usub.expiration' );
-
-        $dateTime = new \DateTime();
-        $dateTime->modify( '+30 minutes' );
-
-        $tokenExpirationDate = $dateTime->format( 'Y-m-d H:i:s' );
-
         $token = $this->generateToken();
 
         $usubToken = $this->tokenRepo->save([
@@ -52,16 +45,17 @@ class UsubService
             'user1'       => $user1,
             'user2'       => $user2,
             'redirect_to' => $redirectTo,
-            'expires_at'  => $tokenExpirationDate
+            'expires_at'  => $this->getTokenExpirationDate()
         ]);
 
-        Cookie::queue( Cookie::make( 'usub_token', $token,  $tokenExpirationMinutes ) );
+        Cookie::queue( Cookie::make( 'usub_token', $token,  Config::get( 'usub.expiration' ) ) );
 
         return $usubToken;
     }
 
     /**
      * @return int|null
+     * @throws \Exception
      */
     public function getAdminId(): ?int
     {
@@ -69,7 +63,7 @@ class UsubService
 
         $adminId = null;
 
-        $usubToken = $this->tokenRepo->getByToken( $token );
+        $usubToken = $this->tokenRepo->getByToken( $token, $this->getTokenExpirationDate() );
 
         if ( !is_null($usubToken) )
         {
@@ -80,5 +74,23 @@ class UsubService
         }
 
         return $adminId;
+    }
+
+    /**
+     * @param int|null $tokenExpirationMinutes
+     * @return string
+     * @throws \Exception
+     */
+    public function getTokenExpirationDate( int $tokenExpirationMinutes = null )
+    {
+        if( is_null($tokenExpirationMinutes) )
+        {
+            $tokenExpirationMinutes = Config::get( 'usub.expiration' );
+        }
+
+        $dateTime = new \DateTime();
+        $dateTime->modify( "+$tokenExpirationMinutes minutes" );
+
+        return $dateTime->format( 'Y-m-d H:i:s' );
     }
 }
