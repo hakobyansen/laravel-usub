@@ -5,8 +5,7 @@ namespace Usub\Core;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Cookie;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+use Illuminate\Support\Facades\Log;
 use Usub\Models\UsubToken;
 
 class UsubService
@@ -47,15 +46,26 @@ class UsubService
 
         $token = $this->generateToken();
 
+        try
+        {
+            $usubToken = $this->tokenRepo->save([
+                'token'       => $token,
+                'user1'       => $user1,
+                'user2'       => $user2,
+                'redirect_to' => Config::get( 'usub.redirect_to' ),
+                'expires_at'  => $tokenExpirationDate
+            ]);
+        }
+        catch ( \Exception $exception )
+        {
+            $errorMessage = "Couldn't save usub token in db. {$exception->getMessage()}. " . __METHOD__;
+
+            Log::error( $errorMessage );
+        }
+
         Cookie::queue( Cookie::make( 'usub_token', $token,  $tokenExpirationMinutes ) );
 
-        return $this->tokenRepo->save([
-            'token'       => $token,
-            'user1'       => $user1,
-            'user2'       => $user2,
-            'redirect_to' => Config::get( 'usub.redirect_to' ),
-            'expires_at'  => $tokenExpirationDate
-        ]);
+        return $usubToken;
     }
 
     /**

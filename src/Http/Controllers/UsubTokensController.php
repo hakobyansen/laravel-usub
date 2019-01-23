@@ -36,7 +36,12 @@ class UsubTokensController extends Controller
         $user1 = Auth::id();
         $user2 = $request->get('user2');
 
-        $this->usubService->storeToken( $user1, $user2 );
+        $usubToken = $this->usubService->storeToken( $user1, $user2 );
+
+        if( is_null( $usubToken ) )
+        {
+            abort( 500 );
+        }
 
         Auth::loginUsingId( $user2 );
     }
