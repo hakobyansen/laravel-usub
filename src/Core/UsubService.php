@@ -57,13 +57,22 @@ class UsubService
      * @return int|null
      * @throws \Exception
      */
-    public function getAdminId(): ?int
+    public function getUsubTokenInstance(): ?UsubToken
     {
         $token = Cookie::get('usub_token');
 
-        $adminId = null;
-
         $usubToken = $this->tokenRepo->getByToken( $token, $this->getTokenExpirationDate() );
+
+        return $usubToken;
+    }
+
+    /**
+     * @param UsubToken $usubToken
+     * @return int|null
+     */
+    public function getAdminId( UsubToken $usubToken ): ?int
+    {
+        $adminId = null;
 
         if ( !is_null($usubToken) )
         {
@@ -74,6 +83,15 @@ class UsubService
         }
 
         return $adminId;
+    }
+
+    /**
+     * @param UsubToken $usubToken
+     * @return string
+     */
+    public function getRedirectTo( UsubToken $usubToken ): string
+    {
+        return $usubToken->redirect_to;
     }
 
     /**

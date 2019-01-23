@@ -52,17 +52,22 @@ class UsubTokensController extends BaseController
 
     /**
      * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Exception
      */
     public function signOut( Request $request )
     {
-        $user2 = Auth::id();
+        $usubToken  = $this->usubService->getUsubTokenInstance();
+        $adminId    = $this->usubService->getAdminId( $usubToken );
+        $redirectTo = $this->usubService->getRedirectTo( $usubToken );
 
-        if( $this->usubService->getAdminId() !== null )
+        if( !is_null( $adminId ) )
         {
             Cookie::queue( Cookie::forget('usub_token') );
 
-            Auth::loginUsingId( $user2 );
+            Auth::loginUsingId( $adminId );
+
+            return redirect( $redirectTo );
         }
         else
         {
