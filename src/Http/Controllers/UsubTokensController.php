@@ -23,8 +23,8 @@ class UsubTokensController extends Controller
             new UsubTokenRepository( new UsubToken() )
         );
 
+        $this->middleware('web');
         $this->middleware('auth');
-
         $this->middleware('usub_sign_out')->only( 'signOut' );
     }
 
