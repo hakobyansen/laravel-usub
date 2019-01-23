@@ -2,6 +2,9 @@
 
 namespace Usub\Http\Controllers;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -9,9 +12,12 @@ use Illuminate\Support\Facades\Cookie;
 use Usub\Core\UsubService;
 use Usub\Core\UsubTokenRepository;
 use Usub\Models\UsubToken;
+use Illuminate\Routing\Controller as BaseController;
 
-class UsubTokensController extends Controller
+class UsubTokensController extends BaseController
 {
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
     protected $usubService;
 
     /**
@@ -46,6 +52,7 @@ class UsubTokensController extends Controller
 
     /**
      * @param Request $request
+     * @throws \Exception
      */
     public function signOut( Request $request )
     {
