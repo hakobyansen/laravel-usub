@@ -31,7 +31,7 @@ class UsubTokensController extends BaseController
 
         $this->middleware('web');
         $this->middleware('auth');
-        $this->middleware('usub_sign_out')->only( 'signOut' );
+        $this->middleware('usub_sign_in')->only( 'signIn' );
     }
 
     /**

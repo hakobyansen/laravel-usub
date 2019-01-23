@@ -1,10 +1,10 @@
 <?php
 
-namespace Usub\Http\Middleware;
+namespace App\Http\Middleware;
 
 use Closure;
 
-class UsubSignOut
+class UsubSignIn
 {
     /**
      * Handle an incoming request.
