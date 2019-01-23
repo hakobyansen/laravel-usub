@@ -23,7 +23,7 @@ class UsubTokenRepository implements IUsubTokenRepository
      */
     public function save( array $data ): UsubToken
     {
-        // TODO: Implement save() method.
+        return $this->model->create( $data );
     }
 
     /**
