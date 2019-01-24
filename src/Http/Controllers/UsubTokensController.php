@@ -45,8 +45,11 @@ class UsubTokensController extends BaseController
         $user1 = Auth::id();
         $user2 = $request->get('user2');
 
-        $redirectToOnSignIn  = $request->get('redirect_to_on_sign_in') ?? Config::get( 'usub.redirect_to' );
-        $redirectToOnSignOut = $request->get('redirect_to_on_sign_out') ?? Config::get( 'usub.redirect_to' );
+        $redirectToOnSignIn  = $request->get('redirect_to_on_sign_in')
+            ?? Config::get( 'usub.redirect_to_on_sign_in' );
+
+        $redirectToOnSignOut = $request->get('redirect_to_on_sign_out')
+            ?? Config::get( 'usub.redirect_to_on_sign_out' );
 
         $this->usubService->storeToken( $user1, $user2, $redirectToOnSignOut );
 
