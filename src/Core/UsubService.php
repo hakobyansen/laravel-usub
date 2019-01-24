@@ -61,6 +61,11 @@ class UsubService
     {
         $token = Cookie::get('usub_token');
 
+        if( !$token )
+        {
+            $this->logout();
+        }
+
         $usubToken = $this->tokenRepo->getByToken( $token, $this->getTokenExpirationDate() );
 
         return $usubToken;
@@ -110,5 +115,15 @@ class UsubService
         $dateTime->modify( "+$tokenExpirationMinutes minutes" );
 
         return $dateTime->format( 'Y-m-d H:i:s' );
+    }
+
+    /**
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function logout()
+    {
+        Auth::logout();
+
+        return redirect( Config::get('usub.redirect_to_on_cookie_expiration') );
     }
 }
