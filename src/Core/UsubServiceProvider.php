@@ -14,7 +14,7 @@ class UsubServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../Configs/config.php' => config_path( 'usub.php' ),
             __DIR__ . '/../Migrations/2019_01_23_201042_create_usub_tokens_table.php' => database_path('migrations/2019_01_23_201042_create_usub_tokens_table.php'),
-            __DIR__ . '/../Http/Middleware/UsubSignIn.php' => app_path('Http/Middleware/UsubSignOut.php'),
+            __DIR__ . '/../Http/Middleware/UsubSignIn.php' => app_path('Http/Middleware/UsubSignIn.php'),
         ], 'laravel-usub');
 
         // Register commands
