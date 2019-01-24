@@ -62,6 +62,14 @@ class UsubTokensController extends BaseController
     public function signOut( Request $request )
     {
         $usubToken  = $this->usubService->getUsubTokenInstance();
+
+        if( is_null($usubToken) )
+        {
+            Auth::logout();
+
+            return redirect( Config::get('usub.redirect_to_on_cookie_expiration') );
+        }
+
         $adminId    = $this->usubService->getAdminId( $usubToken );
         $redirectTo = $this->usubService->getRedirectTo( $usubToken );
 
