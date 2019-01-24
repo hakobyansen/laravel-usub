@@ -3,7 +3,6 @@
 namespace Usub\Core;
 
 use Illuminate\Support\ServiceProvider;
-use App\Console\Commands\ClearUsubTokens;
 use App\Http\Middleware\UsubSignIn;
 
 class UsubServiceProvider extends ServiceProvider
@@ -17,14 +16,6 @@ class UsubServiceProvider extends ServiceProvider
             __DIR__ . '/../Http/Middleware/UsubSignIn.php' => app_path('Http/Middleware/UsubSignIn.php'),
             __DIR__ . '/../Commands/ClearUsubTokens.php' => app_path('Console/Commands/ClearUsubTokens.php'),
         ], 'laravel-usub');
-
-        // Register commands
-        if($this->app->runningInConsole())
-        {
-            $this->commands([
-                ClearUsubTokens::class
-            ]);
-        }
 
         // Register middleware
         if( $this->app->runningUnitTests() )
