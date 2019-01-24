@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Session;
 use Usub\Core\UsubService;
 use Usub\Core\UsubTokenRepository;
 use Usub\Models\UsubToken;
@@ -66,6 +67,7 @@ class UsubTokensController extends BaseController
         if( is_null($usubToken) )
         {
             Auth::logout();
+            Session::flush();
 
             return redirect( Config::get('usub.redirect_to_on_cookie_expiration') );
         }
