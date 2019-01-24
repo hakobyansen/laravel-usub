@@ -1,6 +1,6 @@
 <?php
 
-namespace Usub\Commands;
+namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Usub\Core\UsubService;
@@ -41,6 +41,7 @@ class ClearUsubTokens extends Command
         $repo    = new UsubTokenRepository( new UsubToken() );
         $service = new UsubService( $repo );
 
+        // Returns count of deleted rows
         $repo->deleteExpiredTokens( $service->getTokenExpirationDate() );
     }
 }
