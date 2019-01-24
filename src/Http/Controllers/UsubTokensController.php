@@ -66,10 +66,7 @@ class UsubTokensController extends BaseController
 
         if( is_null($usubToken) )
         {
-            Auth::logout();
-            Session::flush();
-
-            return redirect( Config::get('usub.redirect_to_on_cookie_expiration') );
+            return $this->flush();
         }
 
         $adminId    = $this->usubService->getAdminId( $usubToken );
@@ -85,7 +82,18 @@ class UsubTokensController extends BaseController
         }
         else
         {
-            abort( 401 );
+            $this->flush();
         }
+    }
+
+    /**
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    private function flush()
+    {
+        Auth::logout();
+        Session::flush();
+
+        return redirect( Config::get('usub.redirect_to_on_cookie_expiration') );
     }
 }
