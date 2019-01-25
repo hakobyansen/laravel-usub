@@ -2,7 +2,6 @@
 
 namespace Usub\Core;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Cookie;
 use Usub\Models\UsubToken;
@@ -21,10 +20,16 @@ class UsubService
     }
 
     /**
+     * @param int|null $length
      * @return string
      */
-    public function generateToken(): string
+    public function generateToken( int $length = null ): string
     {
+        if ( !is_null( $length ) )
+        {
+            return str_random( $length );
+        }
+
         return str_random( Config::get( 'usub.length' ) );
     }
 
@@ -32,10 +37,11 @@ class UsubService
      * @param int $user1
      * @param int $user2
      * @param string $redirectTo
+     * @param int|null $expirationMins
      * @return UsubToken
      * @throws \Exception
      */
-    public function storeToken( int $user1, int $user2, string $redirectTo ): UsubToken
+    public function storeToken( int $user1, int $user2, string $redirectTo, int $expirationMins = null ): UsubToken
     {
         $token = $this->generateToken();
 
@@ -47,13 +53,18 @@ class UsubService
             'expires_at'  => $this->getTokenExpirationDate()
         ]);
 
-        Cookie::queue( Cookie::make( 'usub_token', $token,  Config::get( 'usub.expiration' ) ) );
+        if( is_null( $expirationMins ) )
+        {
+            $expirationMins = Config::get( 'usub.expiration' );
+        }
+
+        $this->storeUsubCookie( $token, $expirationMins );
 
         return $usubToken;
     }
 
     /**
-     * @return int|null
+     * @return UsubToken|null
      * @throws \Exception
      */
     public function getUsubTokenInstance(): ?UsubToken
@@ -72,15 +83,16 @@ class UsubService
 
     /**
      * @param UsubToken $usubToken
+     * @param int $authUserId
      * @return int|null
      */
-    public function getAdminId( UsubToken $usubToken ): ?int
+    public function getAdminId( UsubToken $usubToken, int $authUserId ): ?int
     {
         $adminId = null;
 
         if ( !is_null($usubToken) )
         {
-            if( Auth::id() == $usubToken->user2 )
+            if( $authUserId == $usubToken->user2 )
             {
                 $adminId = $usubToken->user1;
             }
@@ -114,5 +126,31 @@ class UsubService
         $dateTime->modify( "+$tokenExpirationMinutes minutes" );
 
         return $dateTime->format( 'Y-m-d H:i:s' );
+    }
+
+    /**
+     * @param string $token
+     * @param int $expirationMins
+     * @return void
+     */
+    public function storeUsubCookie( string $token, int $expirationMins )
+    {
+        Cookie::queue( Cookie::make( 'usub_token', $token,  $expirationMins) );
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getUsubCookie(): ?string
+    {
+        return Cookie::get( 'usub_token' );
+    }
+
+    /**
+     * @return void
+     */
+    public function deleteUsubCookie()
+    {
+        Cookie::queue( Cookie::forget('usub_token') );
     }
 }

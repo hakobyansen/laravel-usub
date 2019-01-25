@@ -72,12 +72,12 @@ class UsubTokensController extends BaseController
             return $this->flush();
         }
 
-        $adminId    = $this->usubService->getAdminId( $usubToken );
+        $adminId    = $this->usubService->getAdminId( $usubToken, Auth::id() );
         $redirectTo = $this->usubService->getRedirectTo( $usubToken );
 
         if( !is_null( $adminId ) )
         {
-            Cookie::queue( Cookie::forget('usub_token') );
+            $this->usubService->deleteUsubCookie();
 
             Auth::loginUsingId( $adminId );
 

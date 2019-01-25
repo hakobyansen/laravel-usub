@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Integrations;
+namespace Tests\Integration;
 
 use Tests\TestCase;
 use Usub\Core\UsubService;
@@ -27,12 +27,12 @@ class UsubTokensRepositoryTest extends TestCase
         $this->expirationMins = 30;
 
         $this->token = [
-                'token'       => 's0m3t0k3n',
-                'user1'       => 1,
-                'user2'       => 2,
-                'redirect_to' => '/',
-                'expires_at'  => $this->service->getTokenExpirationDate( 30 )
-            ];
+            'token'       => 's0m3t0k3n',
+            'user1'       => 1,
+            'user2'       => 2,
+            'redirect_to' => '/',
+            'expires_at'  => $this->service->getTokenExpirationDate( 30 )
+        ];
     }
 
     public function testSave()
