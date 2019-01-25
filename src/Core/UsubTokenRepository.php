@@ -12,7 +12,7 @@ class UsubTokenRepository implements IUsubTokenRepository
      * UsubTokenRepository constructor.
      * @param UsubToken $model
      */
-    public function __construct(UsubToken $model )
+    public function __construct( UsubToken $model )
     {
         $this->model = $model;
     }
@@ -42,14 +42,6 @@ class UsubTokenRepository implements IUsubTokenRepository
         }
 
         return $query->first();
-    }
-
-    /**
-     * @return array
-     */
-    public function getAll(): array
-    {
-        // TODO: Implement getAll() method.
     }
 
     /**

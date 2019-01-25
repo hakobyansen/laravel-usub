@@ -5,7 +5,6 @@ namespace Usub\Core;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Log;
 use Usub\Models\UsubToken;
 
 class UsubService

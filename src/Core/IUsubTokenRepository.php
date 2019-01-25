@@ -10,7 +10,5 @@ interface IUsubTokenRepository
 
     public function getByToken( string $Token, string $expirationDateDate ): ?UsubToken;
 
-    public function getAll(): array;
-
     public function deleteExpiredTokens( string $expirationDate ): int;
 }
