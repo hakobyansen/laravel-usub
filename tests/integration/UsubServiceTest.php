@@ -2,7 +2,6 @@
 
 namespace Tests\Integration;
 
-use Illuminate\Support\Facades\Cookie;
 use Tests\TestCase;
 use Usub\Models\UsubToken;
 use Usub\Core\UsubTokenRepository;

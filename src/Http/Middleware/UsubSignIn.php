@@ -15,7 +15,10 @@ class UsubSignIn
      */
     public function handle($request, Closure $next)
     {
-        // TODO: implement request validation, e.g. check if user is admin, or whatever you need to check
+        /*
+         * TODO: implement request validation, e.g. check if user is admin
+         *  or whatever you need to check
+         */
 
         return $next($request);
     }

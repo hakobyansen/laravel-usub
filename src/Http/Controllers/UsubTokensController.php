@@ -8,7 +8,6 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
 use Usub\Core\UsubService;
 use Usub\Core\UsubTokenRepository;
