@@ -4,7 +4,7 @@ Feel free to fork and modify for your own needs!
 
 # Installation
 
-To install the package using composer run command `composer require codebot/laravel-usub:0.1.*`
+* Install the package using composer - run command `composer require codebot/laravel-usub:0.1.*`
 
 * Publish vendors using `php artisan vendor:publish --tag=laravel-usub` command. 
 You will get published config file **config/usub.php**, 
