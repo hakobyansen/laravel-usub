@@ -1,5 +1,5 @@
 # About laravel-usub
-Laravel package for authenticated user substitution to login as other users. You will find this package useful when your client says "As an admin I want to be authenticated and act as chosen user without typing password, and want to back to my admin dashboard by single click.".
+Laravel package for authenticated user substitution to login as other users. You will find this package useful when your client says "As an admin I want to be authenticated and act as chosen user without typing password, and want to back to my admin dashboard by single click.".  
 Feel free to fork and modify for your own needs!
 
 # Installation
@@ -13,6 +13,9 @@ command **app/Console/Commands/ClearUsubTokens.php**
 and migration to create usub_tokens table.
  
 * Run `php artisan migrate` to create usub_tokens table.
+
+* If auto-discovery doesn't work for you then register service provider by adding 
+`Usub\Core\UsubServiceProvider::class` to providers in config/app.php file.  
  
 **_You need complete UsubSignIn middleware to implement permissions stuff. For example:_**
 ```php
