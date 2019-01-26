@@ -12,7 +12,7 @@ class UsubTokenRepository implements IUsubTokenRepository
      * UsubTokenRepository constructor.
      * @param UsubToken $model
      */
-    public function __construct(UsubToken $model )
+    public function __construct( UsubToken $model )
     {
         $this->model = $model;
     }
@@ -23,47 +23,35 @@ class UsubTokenRepository implements IUsubTokenRepository
      */
     public function save( array $data ): UsubToken
     {
-        // TODO: Implement save() method.
-    }
-
-    /**
-     * @param int $tokenId
-     * @return UsubToken
-     */
-    public function getById( int $tokenId ): UsubToken
-    {
-        // TODO: Implement getById() method.
+        return $this->model->create( $data );
     }
 
     /**
      * @param string $token
-     * @return UsubToken
+     * @param string $expirationDate
+     * @return UsubToken|null
      */
-    public function getByToken( string $token ): UsubToken
+    public function getByToken( string $token, string $expirationDate ): ?UsubToken
     {
-        return $this->model
-            ->where('token', $token)
-            ->first();
+        $query = $this->model
+            ->where('token', $token);
+
+        if( !is_null( $expirationDate ) )
+        {
+            $query = $query->whereDate('expires_at', '<', $expirationDate );
+        }
+
+        return $query->first();
     }
 
     /**
-     * @return array
-     */
-    public function getAll(): array
-    {
-        // TODO: Implement getAll() method.
-    }
-
-    /**
+     * @param string $expirationDate
      * @return int
      */
-    public function deleteExpiredTokens(): int
+    public function deleteExpiredTokens( string $expirationDate ): int
     {
-        // TODO: Implement deleteExpiredTokens() method.
-    }
-
-    public function delete( int $tokenId ): int
-    {
-        // TODO: Implement delete() method.
+        return $this->model
+            ->where('expires_at', '<',  $expirationDate)
+            ->delete();
     }
 }

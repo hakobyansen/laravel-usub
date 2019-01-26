@@ -2,11 +2,8 @@
 
 namespace Usub\Core;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Cookie;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Usub\Models\UsubToken;
 
 class UsubService
@@ -23,60 +20,137 @@ class UsubService
     }
 
     /**
+     * @param int|null $length
      * @return string
      */
-    public function generateToken(): string
+    public function generateToken( int $length = null ): string
     {
+        if ( !is_null( $length ) )
+        {
+            return str_random( $length );
+        }
+
         return str_random( Config::get( 'usub.length' ) );
     }
 
     /**
-     * @param $user1
-     * @param $user2
+     * @param int $user1
+     * @param int $user2
+     * @param string $redirectTo
+     * @param int|null $expirationMins
      * @return UsubToken
      * @throws \Exception
      */
-    public function storeToken( $user1, $user2 ): UsubToken
+    public function storeToken( int $user1, int $user2, string $redirectTo, int $expirationMins = null ): UsubToken
     {
-        $tokenExpirationMinutes = Config::get( 'usub.expiration' );
-
-        $dateTime = new \DateTime();
-        $dateTime->modify( '+30 minutes' );
-
-        $tokenExpirationDate = $dateTime->modify( 'Y-m-d H:i:s' );
-
         $token = $this->generateToken();
 
-        Cookie::queue( Cookie::make( 'usub_token', $token,  $tokenExpirationMinutes ) );
-
-        return $this->tokenRepo->save([
+        $usubToken = $this->tokenRepo->save([
             'token'       => $token,
             'user1'       => $user1,
             'user2'       => $user2,
-            'redirect_to' => Config::get( 'usub.redirect_to' ),
-            'expires_at'  => $tokenExpirationDate
+            'redirect_to' => $redirectTo,
+            'expires_at'  => $this->getTokenExpirationDate()
         ]);
+
+        if( is_null( $expirationMins ) )
+        {
+            $expirationMins = Config::get( 'usub.expiration' );
+        }
+
+        $this->storeUsubCookie( $token, $expirationMins );
+
+        return $usubToken;
     }
 
     /**
-     * @return int|null
+     * @return UsubToken|null
+     * @throws \Exception
      */
-    public function getAdminId(): ?int
+    public function getUsubTokenInstance(): ?UsubToken
     {
         $token = Cookie::get('usub_token');
 
-        $adminId = null;
+        if( !$token )
+        {
+            return null;
+        }
 
-        $usubToken = $this->tokenRepo->getByToken( $token );
+        $usubToken = $this->tokenRepo->getByToken( $token, $this->getTokenExpirationDate() );
+
+        return $usubToken;
+    }
+
+    /**
+     * @param UsubToken $usubToken
+     * @param int $authUserId
+     * @return int|null
+     */
+    public function getAdminId( UsubToken $usubToken, int $authUserId ): ?int
+    {
+        $adminId = null;
 
         if ( !is_null($usubToken) )
         {
-            if( Auth::id() == $usubToken->user2 )
+            if( $authUserId == $usubToken->user2 )
             {
                 $adminId = $usubToken->user1;
             }
         }
 
         return $adminId;
+    }
+
+    /**
+     * @param UsubToken $usubToken
+     * @return string
+     */
+    public function getRedirectTo( UsubToken $usubToken ): string
+    {
+        return $usubToken->redirect_to;
+    }
+
+    /**
+     * @param int|null $tokenExpirationMinutes
+     * @return string
+     * @throws \Exception
+     */
+    public function getTokenExpirationDate( int $tokenExpirationMinutes = null )
+    {
+        if( is_null($tokenExpirationMinutes) )
+        {
+            $tokenExpirationMinutes = Config::get( 'usub.expiration' );
+        }
+
+        $dateTime = new \DateTime();
+        $dateTime->modify( "+$tokenExpirationMinutes minutes" );
+
+        return $dateTime->format( 'Y-m-d H:i:s' );
+    }
+
+    /**
+     * @param string $token
+     * @param int $expirationMins
+     * @return void
+     */
+    public function storeUsubCookie( string $token, int $expirationMins )
+    {
+        Cookie::queue( Cookie::make( 'usub_token', $token,  $expirationMins) );
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getUsubCookie(): ?string
+    {
+        return Cookie::get( 'usub_token' );
+    }
+
+    /**
+     * @return void
+     */
+    public function deleteUsubCookie()
+    {
+        Cookie::queue( Cookie::forget('usub_token') );
     }
 }

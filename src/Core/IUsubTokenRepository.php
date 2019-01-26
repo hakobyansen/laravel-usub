@@ -8,13 +8,7 @@ interface IUsubTokenRepository
 {
     public function save( array $data ): UsubToken;
 
-    public function delete( int $tokenId ): int;
+    public function getByToken( string $Token, string $expirationDateDate ): ?UsubToken;
 
-    public function getById( int $tokenId ): UsubToken;
-
-    public function getByToken( string $Token ): UsubToken;
-
-    public function getAll(): array;
-
-    public function deleteExpiredTokens(): int;
+    public function deleteExpiredTokens( string $expirationDate ): int;
 }

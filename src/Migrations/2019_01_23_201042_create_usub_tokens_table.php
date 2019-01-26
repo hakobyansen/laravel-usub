@@ -15,7 +15,7 @@ class CreateUsubTokensTable extends Migration
             $table->string('token');
             $table->string('redirect_to');
             $table->dateTime('expires_at');
-
+            $table->timestamps();
         });
     }
 

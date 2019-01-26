@@ -1,9 +1,11 @@
 <?php
 
-namespace RB\Commands;
+namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Config;
+use Usub\Core\UsubService;
+use Usub\Core\UsubTokenRepository;
+use Usub\Models\UsubToken;
 
 class ClearUsubTokens extends Command
 {
@@ -31,8 +33,15 @@ class ClearUsubTokens extends Command
         parent::__construct();
     }
 
+    /**
+     * @throws \Exception
+     */
     public function handle()
     {
+        $repo    = new UsubTokenRepository( new UsubToken() );
+        $service = new UsubService( $repo );
 
+        // Returns count of deleted rows
+        $repo->deleteExpiredTokens( $service->getTokenExpirationDate() );
     }
 }
