@@ -8,7 +8,10 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Usub\Core\UsubService;
 use Usub\Core\UsubTokenRepository;
 use Usub\Models\UsubToken;
@@ -41,6 +44,22 @@ class UsubTokensController extends BaseController
      */
     public function signIn( Request $request )
     {
+        $validator = Validator::make($request->all(), [
+            'user1'                   => 'required|integer',
+            'redirect_to_on_sign_in'  => 'nullable|string',
+            'redirect_to_on_sign_out' => 'nullable|string'
+        ]);
+
+        if( $validator->fails() )
+        {
+            $errorMessage = 'Field user1 is required. ';
+            $errorMessage .= __METHOD__;
+
+            Log::error( $errorMessage );
+
+            throw new ValidationException( $validator );
+        }
+
         $user1 = Auth::id();
         $user2 = $request->get('user2');
 
