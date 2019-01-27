@@ -45,7 +45,7 @@ class UsubTokensController extends BaseController
     public function signIn( Request $request )
     {
         $validator = Validator::make($request->all(), [
-            'user1'                   => 'required|integer',
+            'user2'                   => 'required|integer',
             'redirect_to_on_sign_in'  => 'nullable|string',
             'redirect_to_on_sign_out' => 'nullable|string'
         ]);
