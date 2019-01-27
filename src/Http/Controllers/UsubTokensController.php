@@ -52,12 +52,24 @@ class UsubTokensController extends BaseController
 
         if( $validator->fails() )
         {
-            $errorMessage = 'Field user1 is required. ';
-            $errorMessage .= __METHOD__;
+            $errorMessage = __METHOD__ . '. ';
+
+            $messagesBag = $validator->getMessageBag()->getMessages();
+
+            if( $messagesBag )
+				{
+					foreach ($messagesBag as $messages)
+					{
+						foreach ($messages as $message)
+						{
+							$errorMessage .= $message. ' ';
+						}
+					}
+				}
 
             Log::error( $errorMessage );
 
-            throw new ValidationException( $validator );
+            throw new \Exception( $errorMessage );
         }
 
         $user1 = Auth::id();
