@@ -45,19 +45,31 @@ class UsubTokensController extends BaseController
     public function signIn( Request $request )
     {
         $validator = Validator::make($request->all(), [
-            'user1'                   => 'required|integer',
+            'user2'                   => 'required|integer',
             'redirect_to_on_sign_in'  => 'nullable|string',
             'redirect_to_on_sign_out' => 'nullable|string'
         ]);
 
         if( $validator->fails() )
         {
-            $errorMessage = 'Field user1 is required. ';
-            $errorMessage .= __METHOD__;
+            $errorMessage = __METHOD__ . '. ';
+
+            $messagesBag = $validator->getMessageBag()->getMessages();
+
+            if( $messagesBag )
+				{
+					foreach ($messagesBag as $messages)
+					{
+						foreach ($messages as $message)
+						{
+							$errorMessage .= $message. ' ';
+						}
+					}
+				}
 
             Log::error( $errorMessage );
 
-            throw new ValidationException( $validator );
+            throw new \Exception( $errorMessage );
         }
 
         $user1 = Auth::id();
