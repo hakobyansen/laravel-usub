@@ -2,10 +2,10 @@
 
 return [
     // Token expiration time in minutes
-    'expiration' => 120,
+    'expiration' => env( 'USUB_TOKEN_EXPIRATION', 120 ),
 
     // Token length
-    'length' => 100,
+    'length' => env( 'USUB_TOKEN_LENGTH', 100 ),
 
     /*
      * Default url where user will be redirected on sign in whenever it's not overridden
