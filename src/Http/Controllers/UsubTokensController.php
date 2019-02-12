@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
 use Usub\Core\UsubService;
 use Usub\Core\UsubTokenRepository;
 use Usub\Models\UsubToken;
