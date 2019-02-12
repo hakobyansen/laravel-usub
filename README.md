@@ -41,6 +41,16 @@ and migration to create usub_tokens table.
 
 *redirect_to_on_cookie_expiration* - Url where user will be redirected when token cookie expired.
 
+You can change the configuration in your .env file if you need to.
+
+```
+USUB_TOKEN_EXPIRATION=120
+USUB_TOKEN_LENGTH=100
+USUB_REDIRECT_TO_ON_SIGN_IN="/"
+USUB_REDIRECT_TO_ON_SIGN_OUT="/"
+USUB_REDIRECT_TO_ON_COOKIE_EXPIRATION="/"
+```
+
 ## Usage
 
 Once you have package installed, following routes are registered:  
@@ -76,4 +86,3 @@ An example of html form that can be used to sign out and back to admin dashboard
     </li>
 @endif
 ```
-    
