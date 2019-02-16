@@ -11,6 +11,7 @@ class CreateUsubWhitelistTable extends Migration
 		Schema::create('usub_whitelist', function (Blueprint $table) {
 			$table->increments('id');
 			$table->string('ip_address');
+			$table->text( 'note' )->nullable();
 			$table->dateTime('created_at');
 		});
 	}
