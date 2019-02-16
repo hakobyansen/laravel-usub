@@ -1,6 +1,6 @@
 {
     "name": "codebot/laravel-usub",
-    "description": "Laravel package for authenticated user substitution.",
+    "description": "Laravel package for authenticated user substitution to login as other users.",
     "authors": [
         {
             "name": "Sen",
