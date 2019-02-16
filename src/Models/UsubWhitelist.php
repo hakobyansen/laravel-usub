@@ -10,6 +10,7 @@ class UsubWhitelist extends Model
 
 	protected $fillable = [
 		'ip_address',
+		'note',
 		'created_at'
 	];
 
