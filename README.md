@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/c0d3b0t/laravel-usub.svg?branch=master)](https://travis-ci.com/c0d3b0t/laravel-usub)
+
 # About laravel-usub
 Laravel package for authenticated user substitution to login as other users. You will find this package useful when your client says "As an admin I want to be authenticated and act as chosen user without typing password, and want to back to my admin dashboard by single click.".
 
