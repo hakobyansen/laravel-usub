@@ -59,7 +59,7 @@ class UsubService
             $expirationMins = Config::get( 'usub.expiration' );
         }
 
-        $this->storeUsubCookie( $token, $expirationMins );
+        $this->storeUsubTokenCookie( $token, $expirationMins );
 
         return $usubToken;
     }
@@ -134,7 +134,7 @@ class UsubService
      * @param int $expirationMins
      * @return void
      */
-    public function storeUsubCookie( string $token, int $expirationMins )
+    public function storeUsubTokenCookie(string $token, int $expirationMins )
     {
         Cookie::queue( Cookie::make( 'usub_token', $token,  $expirationMins) );
     }
@@ -142,7 +142,7 @@ class UsubService
     /**
      * @return string|null
      */
-    public function getUsubCookie(): ?string
+    public function getUsubTokenCookie(): ?string
     {
         return Cookie::get( 'usub_token' );
     }
@@ -150,7 +150,7 @@ class UsubService
     /**
      * @return void
      */
-    public function deleteUsubCookie()
+    public function deleteUsubTokenCookie()
     {
         Cookie::queue( Cookie::forget('usub_token') );
     }
