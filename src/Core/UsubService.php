@@ -4,6 +4,7 @@ namespace Usub\Core;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Str;
 use Usub\Models\UsubToken;
 
 class UsubService
@@ -27,10 +28,10 @@ class UsubService
     {
         if ( !is_null( $length ) )
         {
-            return str_random( $length );
+            return Str::random( $length );
         }
 
-        return str_random( Config::get( 'usub.length' ) );
+        return Str::random( Config::get( 'usub.length' ) );
     }
 
     /**
