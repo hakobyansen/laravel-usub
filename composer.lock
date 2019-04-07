@@ -4,8 +4,48 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6d5fbced00997fa0d3a60da70bbca58f",
-    "packages": [],
+    "content-hash": "c1a3933923ba8349e135a0fc6ec91f6a",
+    "packages": [
+        {
+            "name": "codebot/phpenv",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/c0d3b0t/phpenv.git",
+                "reference": "12d8df870346b2209d01de74f169d30dfe32dbdb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/c0d3b0t/phpenv/zipball/12d8df870346b2209d01de74f169d30dfe32dbdb",
+                "reference": "12d8df870346b2209d01de74f169d30dfe32dbdb",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Env\\": "src/"
+                },
+                "psr-0": {
+                    "Env\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sen",
+                    "email": "sen.hakobyan@gmail.com"
+                }
+            ],
+            "description": "Class for storing and reading environment variables from .env file stored in document root.",
+            "time": "2019-02-14T21:14:05+00:00"
+        }
+    ],
     "packages-dev": [
         {
             "name": "doctrine/inflector",
