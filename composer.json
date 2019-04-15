@@ -1,6 +1,6 @@
 {
     "name": "codebot/laravel-usub",
-    "description": "Laravel package for authenticated user substitution.",
+    "description": "Laravel package for authenticated user substitution to login as other users.",
     "authors": [
         {
             "name": "Sen",
@@ -13,7 +13,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^7.3",
-        "orchestra/testbench": "~3.0"
+        "orchestra/testbench": "~3.0",
+        "codebot/phpenv": "1.0.*"
     },
     "autoload": {
         "psr-4": {

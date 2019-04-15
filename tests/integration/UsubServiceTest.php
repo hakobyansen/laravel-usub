@@ -14,7 +14,7 @@ class UsubServiceTest extends TestCase
     protected $tokenAr;
     protected $usubToken;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

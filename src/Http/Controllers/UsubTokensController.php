@@ -36,11 +36,11 @@ class UsubTokensController extends BaseController
         $this->middleware('usub_sign_in')->only( 'signIn' );
     }
 
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     * @throws \Exception
-     */
+	/**
+	 * @param Request $request
+	 * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+	 * @throws \Exception
+	 */
     public function signIn( Request $request )
     {
         $validator = Validator::make($request->all(), [
@@ -106,7 +106,7 @@ class UsubTokensController extends BaseController
 
         if( !is_null( $adminId ) )
         {
-            $this->usubService->deleteUsubCookie();
+            $this->usubService->deleteUsubTokenCookie();
 
             Auth::loginUsingId( $adminId );
 
