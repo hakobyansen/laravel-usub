@@ -4,6 +4,7 @@ namespace Usub\Core;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Str;
 use Usub\Models\UsubToken;
 
 class UsubService
@@ -27,10 +28,10 @@ class UsubService
     {
         if ( !is_null( $length ) )
         {
-            return str_random( $length );
+            return Str::random( $length );
         }
 
-        return str_random( Config::get( 'usub.length' ) );
+        return Str::random( Config::get( 'usub.length' ) );
     }
 
     /**
@@ -58,7 +59,7 @@ class UsubService
             $expirationMins = Config::get( 'usub.expiration' );
         }
 
-        $this->storeUsubCookie( $token, $expirationMins );
+        $this->storeUsubTokenCookie( $token, $expirationMins );
 
         return $usubToken;
     }
@@ -133,7 +134,7 @@ class UsubService
      * @param int $expirationMins
      * @return void
      */
-    public function storeUsubCookie( string $token, int $expirationMins )
+    public function storeUsubTokenCookie(string $token, int $expirationMins )
     {
         Cookie::queue( Cookie::make( 'usub_token', $token,  $expirationMins) );
     }
@@ -141,7 +142,7 @@ class UsubService
     /**
      * @return string|null
      */
-    public function getUsubCookie(): ?string
+    public function getUsubTokenCookie(): ?string
     {
         return Cookie::get( 'usub_token' );
     }
@@ -149,7 +150,7 @@ class UsubService
     /**
      * @return void
      */
-    public function deleteUsubCookie()
+    public function deleteUsubTokenCookie()
     {
         Cookie::queue( Cookie::forget('usub_token') );
     }

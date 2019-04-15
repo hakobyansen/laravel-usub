@@ -21,7 +21,7 @@ class ClearUsubTokens extends Command
      *
      * @var string
      */
-    protected $description = 'Delete expired tokens from database.';
+    protected $description = 'Deleting expired tokens from database.';
 
     /**
      * Create a new command instance.
