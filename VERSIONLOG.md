@@ -1,4 +1,5 @@
-## 0.1.3
+## 0.1.3 2019-04-15
+* Refactoring. Dependencies updated.
 
 ## 0.1.2 2019-02-12
 * Update to configs.
