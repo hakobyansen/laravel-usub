@@ -25,7 +25,7 @@ return [
     'redirect_to_on_cookie_expiration' => env( 'USUB_REDIRECT_TO_ON_COOKIE_EXPIRATION' , '/' ),
 
 	/*
-	 * Cookie names that will be removed from browser on sign out
+	 * Array of cookie names that will be removed from browser on sign out and usub token expiration.
 	 */
 	'forget_cookies_on_sign_out' => [
 
