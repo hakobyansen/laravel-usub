@@ -102,56 +102,72 @@ class UsubService
         return $adminId;
     }
 
-    /**
-     * @param UsubToken $usubToken
-     * @return string
-     */
-    public function getRedirectTo( UsubToken $usubToken ): string
-    {
-        return $usubToken->redirect_to;
-    }
+	/**
+	 * @param UsubToken $usubToken
+	 * @return string
+	 */
+	public function getRedirectTo(UsubToken $usubToken): string
+	{
+		return $usubToken->redirect_to;
+	}
 
-    /**
-     * @param int|null $tokenExpirationMinutes
-     * @return string
-     * @throws \Exception
-     */
-    public function getTokenExpirationDate( int $tokenExpirationMinutes = null )
-    {
-        if( is_null($tokenExpirationMinutes) )
-        {
-            $tokenExpirationMinutes = Config::get( 'usub.expiration' );
-        }
+	/**
+	 * @param int|null $tokenExpirationMinutes
+	 * @return string
+	 * @throws \Exception
+	 */
+	public function getTokenExpirationDate(int $tokenExpirationMinutes = null)
+	{
+		if (is_null($tokenExpirationMinutes))
+		{
+			$tokenExpirationMinutes = Config::get('usub.expiration');
+		}
 
-        $dateTime = new \DateTime();
-        $dateTime->modify( "+$tokenExpirationMinutes minutes" );
+		$dateTime = new \DateTime();
+		$dateTime->modify("+$tokenExpirationMinutes minutes");
 
-        return $dateTime->format( 'Y-m-d H:i:s' );
-    }
+		return $dateTime->format('Y-m-d H:i:s');
+	}
 
-    /**
-     * @param string $token
-     * @param int $expirationMins
-     * @return void
-     */
-    public function storeUsubTokenCookie(string $token, int $expirationMins )
-    {
-        Cookie::queue( Cookie::make( 'usub_token', $token,  $expirationMins) );
-    }
+	/**
+	 * @param string $token
+	 * @param int $expirationMins
+	 * @return void
+	 */
+	public function storeUsubTokenCookie(string $token, int $expirationMins)
+	{
+		Cookie::queue(Cookie::make('usub_token', $token, $expirationMins));
+	}
 
-    /**
-     * @return string|null
-     */
-    public function getUsubTokenCookie(): ?string
-    {
-        return Cookie::get( 'usub_token' );
-    }
+	/**
+	 * @return string|null
+	 */
+	public function getUsubTokenCookie(): ?string
+	{
+		return Cookie::get('usub_token');
+	}
 
-    /**
-     * @return void
-     */
-    public function deleteUsubTokenCookie()
-    {
-        Cookie::queue( Cookie::forget('usub_token') );
-    }
+	/**
+	 * @return void
+	 */
+	public function deleteUsubTokenCookie()
+	{
+		Cookie::queue(Cookie::forget('usub_token'));
+	}
+
+	/**
+	 * @return void
+	 */
+	public function deleteCookiesDefinedInConfig()
+	{
+		$cookies = config('usub.forget_cookies_on_sign_out');
+
+		if( !empty($cookies) )
+		{
+			foreach ($cookies as $cookie)
+			{
+				Cookie::queue(Cookie::forget($cookie));
+			}
+		}
+	}
 }

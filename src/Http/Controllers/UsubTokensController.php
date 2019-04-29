@@ -20,14 +20,14 @@ class UsubTokensController extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    protected $usubService;
+    protected $_usubService;
 
     /**
      * UsubTokensController constructor.
      */
     public function __construct()
     {
-        $this->usubService = new UsubService(
+        $this->_usubService = new UsubService(
             new UsubTokenRepository( new UsubToken() )
         );
 
@@ -80,52 +80,51 @@ class UsubTokensController extends BaseController
         $redirectToOnSignOut = $request->get('redirect_to_on_sign_out')
             ?? Config::get( 'usub.redirect_to_on_sign_out' );
 
-        $this->usubService->storeToken( $user1, $user2, $redirectToOnSignOut );
+        $this->_usubService->storeToken( $user1, $user2, $redirectToOnSignOut );
 
         Auth::loginUsingId( $user2 );
 
         return redirect( $redirectToOnSignIn );
     }
 
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     * @throws \Exception
-     */
-    public function signOut( Request $request )
-    {
-        $usubToken  = $this->usubService->getUsubTokenInstance();
+	/**
+	 * @param Request $request
+	 * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+	 * @throws \Exception
+	 */
+	public function signOut(Request $request)
+	{
+		$this->_usubService->deleteCookiesDefinedInConfig();
 
-        if( is_null($usubToken) )
-        {
-            return $this->flush();
-        }
+		$usubToken = $this->_usubService->getUsubTokenInstance();
 
-        $adminId    = $this->usubService->getAdminId( $usubToken, Auth::id() );
-        $redirectTo = $this->usubService->getRedirectTo( $usubToken );
+		if (is_null($usubToken)) {
+			return $this->flush();
+		}
 
-        if( !is_null( $adminId ) )
-        {
-            $this->usubService->deleteUsubTokenCookie();
+		$adminId = $this->_usubService->getAdminId($usubToken, Auth::id());
+		$redirectTo = $this->_usubService->getRedirectTo($usubToken);
 
-            Auth::loginUsingId( $adminId );
+		if (!is_null($adminId))
+		{
+			$this->_usubService->deleteUsubTokenCookie();
 
-            return redirect( $redirectTo );
-        }
-        else
-        {
-            $this->flush();
-        }
-    }
+			Auth::loginUsingId($adminId);
 
-    /**
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    private function flush()
-    {
-        Auth::logout();
-        Session::flush();
+			return redirect($redirectTo);
+		}
 
-        return redirect( Config::get('usub.redirect_to_on_cookie_expiration') );
-    }
+		return $this->flush();
+	}
+
+	/**
+	 * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+	 */
+	private function flush()
+	{
+		Auth::logout();
+		Session::flush();
+
+		return redirect(Config::get('usub.redirect_to_on_cookie_expiration'));
+	}
 }

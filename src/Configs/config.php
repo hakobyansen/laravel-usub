@@ -22,5 +22,12 @@ return [
     /*
      * Url where user will be redirected when token cookie expired.
      */
-    'redirect_to_on_cookie_expiration' => env( 'USUB_REDIRECT_TO_ON_COOKIE_EXPIRATION' , '/' )
+    'redirect_to_on_cookie_expiration' => env( 'USUB_REDIRECT_TO_ON_COOKIE_EXPIRATION' , '/' ),
+
+	/*
+	 * Cookie names that will be removed from browser on sign out
+	 */
+	'forget_cookies_on_sign_out' => [
+
+	]
 ];
