@@ -1,3 +1,6 @@
+## 0.1.4 2019-05-29
+* Added an ability to remove cookies on sign out and usub token expiration.
+
 ## 0.1.3 2019-04-15
 * Refactoring. Dependencies updated.
 

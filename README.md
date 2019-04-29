@@ -42,6 +42,8 @@ and migration to create usub_tokens table.
 
 *redirect_to_on_cookie_expiration* - Url where user will be redirected when token cookie expired.
 
+*forget_cookies_on_sign_out* - **Array** of cookie names that will be removed from browser on sign out and usub token expiration.
+
 You can change the configuration in your .env file if you need to.
 
 ```
