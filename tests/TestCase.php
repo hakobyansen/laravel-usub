@@ -4,7 +4,6 @@ namespace Tests;
 
 use Env\Env;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Tests\Unit\EnvTest;
 use Usub\Core\UsubServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
@@ -19,8 +18,6 @@ class TestCase extends \Orchestra\Testbench\TestCase
 			'--database' => 'laravel_usub',
 			'--path' => realpath(__DIR__ . '/../src/Migrations')
 		]);
-
-		$this->env = Env::getInstance();
 	}
 
 	protected function getEnvironmentSetUp($app)
