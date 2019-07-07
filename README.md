@@ -40,6 +40,8 @@ and migration to create usub_tokens table.
 
 *redirect_to_on_cookie_expiration* - Url where user will be redirected when token cookie expired.
 
+*whitelisting* - Package will deny not whitelisted ip address or user id if set to true
+
 You can change the configuration in your .env file if you need to.
 
 ```
