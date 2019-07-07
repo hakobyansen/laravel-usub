@@ -24,6 +24,6 @@ return [
 	'redirect_to_on_cookie_expiration' => env('USUB_REDIRECT_TO_ON_COOKIE_EXPIRATION', '/'),
 
 
-	// Package will deny not whitelisted ip address whenever set to true
+	// Package will deny not whitelisted ip address or user id if set to true
 	'whitelisting' => env( 'USUB_WHITELISTING', false )
 ];
