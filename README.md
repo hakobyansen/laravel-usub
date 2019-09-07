@@ -82,7 +82,7 @@ An example of html form that can be used to sign out and back to admin dashboard
 ```php
 @if( \Illuminate\Support\Facades\Cookie::get('usub_token') )
     <li class="nav-item">
-        <form action="{{ route('usub.sign_out') }}" method="post"">
+        <form action="{{ route('usub.sign_out') }}" method="post">
             @csrf
             <button type="submit" class="btn btn-primary">Back to Admin</button>
         </form>
