@@ -6,7 +6,7 @@ use Env\Env;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Usub\Core\UsubServiceProvider;
 
-class TestCase extends \Orchestra\Testbench\TestCase
+class UsubTestCase extends \Orchestra\Testbench\TestCase
 {
 	use DatabaseMigrations;
 
