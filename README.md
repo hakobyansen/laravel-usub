@@ -10,15 +10,18 @@ Laravel package for authenticated user substitution to login as other users. You
 * Publish vendors using `php artisan vendor:publish --tag=laravel-usub` command. 
 You will get published config file **config/usub.php**, 
 middleware **app/Http/Middleware/UsubSignIn.php**,
-command **app/Console/Commands/ClearUsubTokens.php** 
+command **app/Console/Commands/ClearUsubTokens.php**,
+directory **views/vendor/usub** 
 and migration to create usub_tokens table.
- 
+
 * Run `php artisan migrate` to create usub_tokens table.
 
 * If auto-discovery doesn't work for you then register service provider by adding 
-`Usub\Core\UsubServiceProvider::class` to providers in config/app.php file.  
+`Usub\Core\UsubServiceProvider::class` to providers in config/app.php file.
+
+* Add the `UsubSignIn` middleware to the `$routeMiddleware` array in the `App\Http\Kernel.php` class.
  
-**_You need complete UsubSignIn middleware to implement permissions stuff. For example:_**
+**_You need complete UsubSignIn middleware to implement permissions. For example:_**
 ```php
     public function handle( $request, Closure $next )
     {
@@ -30,17 +33,18 @@ and migration to create usub_tokens table.
         return $next( $request );
     }
 ```
+
 ## Configuration
 
 *expiration* - Usub token expiration time in minutes. 
  
 *length* - Length of generated usub token.
 
-*redirect_to_on_sign_in* - Default url where user will be redirected on sign in whenever it's not overridden by redirect_to_on_sign_in key in request, e.g. by hidden input field.  
+*redirect_to_on_sign_in* - Default URL where user will be redirected on sign in whenever it's not overridden by redirect_to_on_sign_in key in request, e.g. by hidden input field.  
 
-*redirect_to_on_sign_out* - Default url where user will be redirected on sign out whenever it's not overridden by redirect_to_on_sign_out key in request, e.g. by hidden input field.  
+*redirect_to_on_sign_out* - Default URL where user will be redirected on sign out whenever it's not overridden by redirect_to_on_sign_out key in request, e.g. by hidden input field.  
 
-*redirect_to_on_cookie_expiration* - Url where user will be redirected when token cookie expired.
+*redirect_to_on_cookie_expiration* - URL where user will be redirected when token cookie expired.
 
 *forget_cookies_on_sign_out* - **Array** of cookie names that will be removed from browser on sign out and usub token expiration.
 
@@ -69,23 +73,27 @@ Once you have package installed, following routes are registered:
 An example of html form that can be used to sign in as specific user:  
 ```php
 @if( \Auth::user()->hasRole('admin') )
-    <form action="{{ route('usub.sign_in') }}" method="post">
-        @csrf
-        <input type="hidden" name="user2" value="{{ $userId }}">
-        <input type="hidden" name="redirect_to_on_sign_in" value="{{ route('practitioner.dashboard') }}">
-        <input type="hidden" name="redirect_to_on_sign_out" value="{{ url()->current() }}">
-        <button type="submit" class="btn btn-link">{{ $userName }}</button>
-    </form>
+    @include('vendor.usub.partials.sign_in', [
+        'user_id' => $user->id,
+        'on_sign_in' => route('home'),
+        'on_sign_out' => route('backend.user.index')
+    ])
 @endif
 ```
+If you won't specify `on_sign_in` and `on_sign_out` values, then it will use defaults from the `config/usub.php` config file.  
+
 An example of html form that can be used to sign out and back to admin dashboard (or whatever page you need):  
 ```php
 @if( \Illuminate\Support\Facades\Cookie::get('usub_token') )
     <li class="nav-item">
-        <form action="{{ route('usub.sign_out') }}" method="post"">
+        <form action="{{ route('usub.sign_out') }}" method="post">
             @csrf
             <button type="submit" class="btn btn-primary">Back to Admin</button>
         </form>
     </li>
 @endif
 ```
+
+## Cleanup
+
+To delete expired tokens from the `usub_tokens` database table, you can use `php artisan usub:clear` command.

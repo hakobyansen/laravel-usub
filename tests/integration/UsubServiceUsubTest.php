@@ -2,12 +2,12 @@
 
 namespace Tests\Integration;
 
-use Tests\TestCase;
+use Tests\UsubTestCase;
 use Usub\Models\UsubToken;
 use Usub\Core\UsubTokenRepository;
 use Usub\Core\UsubService;
 
-class UsubServiceTest extends TestCase
+class UsubServiceUsubTest extends UsubTestCase
 {
     protected $service;
     protected $repo;
