@@ -1,3 +1,5 @@
+## 0.1.6
+
 ## 0.1.5 2019-11-02
 * Added sign_in.blade.php view partial.
 
