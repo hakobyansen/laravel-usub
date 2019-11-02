@@ -1,3 +1,6 @@
+## 0.1.5 2019-11-02
+* Added sign_in.blade.php view partial.
+
 ## 0.1.4 2019-05-29
 * Added an ability to remove cookies on sign out and usub token expiration.
 
