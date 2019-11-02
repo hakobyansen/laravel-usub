@@ -9,11 +9,11 @@ class CreateUsubTokensTable extends Migration
     public function up()
     {
         Schema::create('usub_tokens', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user1')->unsigned();
-            $table->integer('user2')->unsigned();
-            $table->string('token');
-            $table->string('redirect_to');
+            $table->bigIncrements('id');
+            $table->bigInteger('user1')->unsigned();
+            $table->bigInteger('user2')->unsigned();
+            $table->string('token', 5000);
+            $table->string('redirect_to', 5000);
             $table->dateTime('expires_at');
             $table->timestamps();
         });
