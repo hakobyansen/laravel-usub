@@ -1,3 +1,5 @@
+## 0.1.7
+
 ## 0.1.6 2019-11-02
 * CreateUsubTokensTable migration modified.
 
