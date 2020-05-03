@@ -1,4 +1,4 @@
-## 0.1.7
+## 0.1.7 2020-05-03
 * Merged PR "Add logout function" https://github.com/c0d3b0t/laravel-usub/pull/3
 
 ## 0.1.6 2019-11-02
